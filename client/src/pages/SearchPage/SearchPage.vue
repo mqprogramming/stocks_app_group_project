@@ -1,5 +1,8 @@
 <template>
+
+  
   <div id="searchPage">
+    <div><a href="index.html">Home Page</a></div>
 
     <h2>This should be the Search Page</h2>
 
@@ -10,19 +13,26 @@
       </select>
       <button v-on:click="handleRetrieveStock" type="submit" class=""> See details</button>
       </form>
-    </div>
-    
+     <div>
+     <search-stock-details-display></search-stock-details-display>
+
+     </div>
+     </div>
 
 </template>
-  </div>
-</template>
+ 
 
 <script>
+import SearchShareDetails from "./components/SearchShareDetails";
 
 
 export default {
   name: 'searchPage',
-}
+  components: {
+    // "stock-graph": StockDetailsGraph,
+    "search-stock-details-display": SearchShareDetails
+  }
+};
 </script>
 
 <style>

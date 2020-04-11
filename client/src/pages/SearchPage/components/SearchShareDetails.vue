@@ -1,7 +1,7 @@
 <template>
 
  <div>
-    <h2>{{share.name}}</h2>
+    <h2>share.name</h2>
 
     <div class="share-info">
       <p>Close: </p>
@@ -23,6 +23,7 @@
 
       </form>
 
+ </div>
  </div>
 </template>
 
