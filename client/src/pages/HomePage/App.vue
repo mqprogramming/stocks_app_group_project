@@ -1,21 +1,41 @@
 <template>
+
   <div id="app">
-    <img alt="Vue logo" src="@/assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
     <div><a href="searchPage.html">Search Page</a></div>
-    <div><a href="stockDetailsPage.html">Stock Details Page</a></div>
+    <div><a href="stockDetailsPage.html">Your Stock Details Page</a></div>
+    
+    <h1>Title</h1>
+
+    <div class="container">
+      
+      
+
+     <div>
+    <portofolio-graph id="pie-chart"></portofolio-graph>
+     </div>
+
+       
+  
+  
+</div>
+
+    
   </div>
+
+
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import MainGraph from './components/MainChart';
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+	
+	components: {
+		'portofolio-graph': MainGraph
+	}
+};
+
+
 </script>
 
 <style>

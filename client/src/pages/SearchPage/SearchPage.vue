@@ -1,7 +1,19 @@
 <template>
   <div id="searchPage">
-    <img alt="Vue logo" src="@/assets/logo.png">
-    <p>Search Page</p>
+
+    <h2>This should be the Search Page</h2>
+
+      <form v-on:submit.prevent="handleSubmit">
+    <p>Search for a share</p>
+  <select v-on:change="handleRetrieveStock">
+        <option>Stock option from API</option>
+      </select>
+      <button v-on:click="handleRetrieveStock" type="submit" class=""> See details</button>
+      </form>
+    </div>
+    
+
+</template>
   </div>
 </template>
 

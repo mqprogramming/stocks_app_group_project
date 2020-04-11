@@ -15,7 +15,7 @@ module.exports = {
         stockDetailsPage:{
             entry: './src/pages/StockDetailsPage/main.js',
             template: 'public/stockDetailsPage.html',
-            title: 'Stock Details Page',
+            title: 'Your Stock Details Page',
             chunks: ['chunk-vendors', 'chunk-common', 'stockDetailsPage']
         }
     }
