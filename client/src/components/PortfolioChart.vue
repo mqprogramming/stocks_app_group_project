@@ -8,13 +8,14 @@
 <script>
 import {Chart} from 'highcharts-vue'
 
+
   export default {
     name: 'portfolio-chart',
     data(){
       return {
         chartOptions: {
           series: [{
-            data: [1,2,3] // sample data
+            data: [1,2,3,4,5] // sample data
           }]
         }
       }
