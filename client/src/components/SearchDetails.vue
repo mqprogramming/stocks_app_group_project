@@ -1,8 +1,11 @@
 <template>
   <div v-if="stockDetails">
-      <p >{{ stockDetails["Meta Data"]["2. Symbol"] }}</p>
+      <p >{{ stockDetails["2. Symbol"] }}</p>
       <!-- <p>{{stockDetails["Time Series (5min)"]}}</p> -->
-      <p v-for="(stockTime, index) in this.stockTimeSeries" :key="index" :stockTime="stockTime" >{{ stockTime["4. close"] }}</p>
+      <ul >
+        <li v-for="(stockTime, index) in this.stockTimeSeries" :key="index" :stockTime="stockTime" > {{ stockTime["4. close"] }} </li>
+
+      </ul>
 
   </div>
 </template>
@@ -32,7 +35,7 @@ export default {
           `${this.query}${process.env.VUE_APP_API_KEY}`
         );
         const json = await response.json();
-        this.stockDetails = json;
+        this.stockDetails = json["Meta Data"];
         this.stockTimeSeries = json["Time Series (5min)"];
         console.log(json["Meta Data"]);
       };
