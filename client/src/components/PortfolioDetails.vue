@@ -2,11 +2,12 @@
   <div class="details">
     <h1>Portfolio details</h1>
     <h2>All the details!</h2>
-    <ul>
-      <li
-        v-for="stock in portfolio" v-bind:key="stock._id">
-        {{ stock.ticker }}{{ stock.name }} by {{ stock.price }} {{ stock.quantity }} {{ stock.date_and_time }}</li>
-    </ul>
+      <ul v-for="stock in portfolio" v-bind:key="stock._id">
+        <li>Ticker: {{ stock.ticker }}</li>
+        <li>Name: {{ stock.name }}</li>
+        <li> Price: {{ stock.price }}</li>
+        <li>Quantity: {{ stock.quantity }}</li>
+        <li> Date: {{ stock.date_and_time }}</li></ul>
   </div>
 </template>
 
