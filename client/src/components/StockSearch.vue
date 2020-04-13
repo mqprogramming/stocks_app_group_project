@@ -1,11 +1,9 @@
 <template>
   <div>
-
-
       <form v-on:submit.prevent="handleSubmit">
 
-      <label for="symbol">Enter the Stock Ticker Name:</label>
-    <input type="text" id="symbol" name="symbol" v-model="symbol" />
+      <label for="symbol">Enter the Stock Ticker Name: </label>
+      <input type="text" id="symbol" name="symbol" v-model="symbol" />
 
       <input type="submit" name="submit" value="Search" />
       </form>

@@ -11,7 +11,7 @@ app.use(cors());
 // Creating client
 const OurClient = require('mongodb').MongoClient;
 
-const createRouter = require('./helpers/create_router.js');
+const createRouter = require('./helper/create_router.js');
 
 OurClient.connect('mongodb://localhost:27017')
   .then( (client) => {

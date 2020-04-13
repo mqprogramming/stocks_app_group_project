@@ -1,7 +1,6 @@
 <template>
   <div>
-      
-
+      <p v-if="stockDetails">{{ stockDetails }}</p>
   </div>
 </template>
 
@@ -16,15 +15,18 @@ export default {
             ticker: ""
         }
     },
-
     mounted() {
 
-        fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=${process.env.VUE_APP_API_KEY}`)
-        .then(res => res.json())
-        .then(stockData => this.stockDetails[0] = stockData )
-        console.log(`Output: `, this.stockDetails);
+        const request = async () => {
+            const response = await fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=${process.env.VUE_APP_API_KEY}`);
+            const json = await response.json();
+            this.stockDetails = json;
+            console.log(json['Meta Data']);
+        }
+
+        request();
         
-    }
+    },
 
 }
 </script>
