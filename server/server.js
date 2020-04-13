@@ -15,10 +15,10 @@ const createRouter = require('./helper/create_router.js');
 
 OurClient.connect('mongodb://localhost:27017')
   .then( (client) => {
-    const db = client.db(portfolio);
-    const portfolioCollection = db.collection('user_portfolio');
+    const db = client.db('shares_portfolio');
+    const portfolioCollection = db.collection('shares');
     const portfolioRouter = createRouter(portfolioCollection);
-    app.use('/api/user-portfolio', portfolioRouter);
+    app.use('/api/shares-portfolio', portfolioRouter);
   });
 
 app.listen(3000, function(){
