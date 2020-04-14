@@ -8,7 +8,7 @@
         <li> Price: {{ stock.price }}</li>
         <li>Quantity: {{ stock.quantity }}</li>
         <li> Date: {{ stock.date_and_time }}</li>
-        <li> <button v-on:click="handleDelete(stock._id)">Sell</button> </li>
+        <li> <button v-on:click="handleSell(stock._id)">Sell</button> </li>
       </ul>
   </div>
 </template>
@@ -30,7 +30,7 @@ export default {
         (portfolio => (this.portfolio = portfolio)
       ))
     },
-    handleDelete(id) {
+    handleSell(id) {
       console.log(id);
       
       PortfolioService.deletePortfolio(id).then ((reponce) => {
