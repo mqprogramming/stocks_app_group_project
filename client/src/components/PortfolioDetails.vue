@@ -7,7 +7,9 @@
         <li>Name: {{ stock.name }}</li>
         <li> Price: {{ stock.price }}</li>
         <li>Quantity: {{ stock.quantity }}</li>
-        <li> Date: {{ stock.date_and_time }}</li></ul>
+        <li> Date: {{ stock.date_and_time }}</li>
+        <li> <button v-on:click="handleDelete(stock._id)">Sell</button> </li>
+      </ul>
   </div>
 </template>
 
@@ -27,6 +29,14 @@ export default {
        PortfolioService.getPortfolio().then(
         (portfolio => (this.portfolio = portfolio)
       ))
+    },
+    handleDelete(id) {
+      console.log(id);
+      
+      PortfolioService.deletePortfolio(id).then ((reponce) => {
+        let index = this.portfolio.findIndex(shares => shares._id == id)
+      this.portfolio.splice(index, 1)
+      })
     }
     },
 
@@ -36,10 +46,9 @@ export default {
     eventBus.$on('buy-shares', (shares) => {this.portfolio.push(shares)
     })
 
-    eventBus.$on('delete-shares', (id) => {
-      let index = this.portfolio.findIndex(shares => shares._id == id)
-      this.portfolio.splice(index, 1)
-    })
+    // eventBus.$on('delete-shares', (id) => {
+      
+    // })
 }
 
     

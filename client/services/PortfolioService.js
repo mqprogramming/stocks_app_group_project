@@ -1,4 +1,4 @@
-const baseURL = 'http://localhost:3000/api/shares-portfolio';
+const baseURL = 'http://localhost:3000/api/shares-portfolio/';
 
 export default {
   getPortfolio(){
@@ -12,6 +12,13 @@ export default {
       headers: { 'Content-Type': 'application/json'},
     })
     .then(res => res.json())
+  },
+  deletePortfolio(id) {
+    console.log('PS : ', id);
+    
+    return fetch(baseURL + id, {
+      method:'DELETE',
+    });
   }
 
 }
