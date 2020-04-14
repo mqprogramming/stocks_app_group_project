@@ -4,7 +4,8 @@
     <button v-on:click="sortPortfolioByDate()">Sort Portfolio By Date</button>
     <button v-on:click="createDatesArray()">Create Dates Array</button>
     <button v-on:click="fetchStockDataFor('AAPL')">Fetch Stock Data</button>
-    <button v-on:click="valueOnGivenDay('AAPL', '2020-19-03')">Daily Value</button>
+    <button v-on:click="valueOnGivenDay('AAPL', '2020-03-20')">Daily Value</button>
+    <button v-on:click="portfolioOnGivenDay('2020-04-03')">Portfolio Value On Date</button>
     <highcharts :constructor-type="'stockChart'" :options="chartOptions"></highcharts>
   </div>
 </template>
@@ -22,8 +23,8 @@ stockInit(Highcharts)
       return {
         portfolioDetails: [],
         datesArray: [],
-        stockDetails: [],
-        stockTimeSeries: [],
+        stockDetails: {},
+        stockTimeSeries: {},
 
         chartOptions: {
           title: {
@@ -95,6 +96,7 @@ stockInit(Highcharts)
           const json = await response.json();
           this.stockDetails = json;
           this.stockTimeSeries = json["Time Series (Daily)"];
+          console.log(this.stockTimeSeries);
         };
 
         request();
@@ -162,11 +164,25 @@ stockInit(Highcharts)
         console.log(this.datesArray);
       },
       valueOnGivenDay(symbol, date) {
-        this.stockTimeSeries.forEach((daily) => {
-          if (Object.keys(daily)[0] == date) {
-            return daily['4. close']
+        Object.entries(this.stockTimeSeries).forEach(function(daily) {
+          if (daily[0] == date) {
+            console.log(daily[1]['4. close']);
+            return daily[1]['4. close'];
           }
         })
+      },
+      portfolioOnGivenDay(date) {
+        let unix_date = new Date(date).getTime();
+        let filteredPortfolio = [];
+
+        this.portfolioDetails.forEach((record) => {
+          if (record.unix_time < unix_date) {
+            filteredPortfolio.push(record)
+          }
+        });
+        
+        console.log(filteredPortfolio);
+        return filteredPortfolio;
       }
     },
     components: {
