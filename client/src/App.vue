@@ -4,7 +4,7 @@
     <stock-search />
     <search-details />
     <portfolio-chart />
-    <portfolio-details/>
+    <portfolio-grid/>
   </div>
 </template>
 
@@ -13,6 +13,7 @@ import StockSearch from "./components/StockSearch"
 import SearchDetails from "./components/SearchDetails"
 import PortfolioChart from "./components/PortfolioChart"
 import PortfolioDetails from "./components/PortfolioDetails"
+import PortfolioGrid from "./components/PortfolioGrid"
 
 export default {
   name: 'App' ,
@@ -20,7 +21,8 @@ export default {
     'stock-search': StockSearch,
     'search-details': SearchDetails,
     'portfolio-chart': PortfolioChart,
-    'portfolio-details': PortfolioDetails
+    'portfolio-details': PortfolioDetails,
+    'portfolio-grid': PortfolioGrid
   }
 
 }
