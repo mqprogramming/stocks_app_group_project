@@ -3,10 +3,12 @@
     <h1>Chart</h1>
     <button v-on:click="sortPortfolioByDate()">Sort Portfolio By Date</button>
     <button v-on:click="createDatesArray()">Create Dates Array</button>
+    <button v-on:click="createChartData()">Initial Chart Data</button>
+    <br>
     <button v-on:click="fetchStockDataFor('AAPL')">Fetch Stock Data</button>
     <button v-on:click="valueOnGivenDay('AAPL', '2020-03-20')">Daily Value</button>
     <button v-on:click="portfolioOnGivenDay('2020-04-11')">Portfolio Value On Date</button>
-    <button v-on:click="createChartData()">Initial Chart Data</button>
+    <button v-on:click="calculateDailyValues('AAPL')">Chart Data for AAPL</button>
     <highcharts :constructor-type="'stockChart'" :options="chartOptions"></highcharts>
   </div>
 </template>
@@ -167,12 +169,14 @@ stockInit(Highcharts)
         console.log(this.datesArray);
       },
       valueOnGivenDay(symbol, date) {
+        let result = 0;
         Object.entries(this.stockTimeSeries).forEach(function(daily) {
           if (daily[0] == date) {
-            console.log(daily[1]['4. close']);
-            return daily[1]['4. close'];
-          }
-        })
+            result = daily[1]['4. close'];
+          };
+        });
+        // console.log(daily[1]['4. close']);
+        return result;
       },
       portfolioOnGivenDay(date) {
         let unix_date = new Date(date).getTime();
@@ -202,7 +206,7 @@ stockInit(Highcharts)
           };
         });
 
-        console.log('filtered portfolio', arraysOfQuantities);
+        // console.log('filtered portfolio', arraysOfQuantities);
         return arraysOfQuantities;
 
       },
@@ -230,17 +234,32 @@ stockInit(Highcharts)
         this.chartData = dataArray;
         console.log(this.chartData);
       },
-      // calculateDailyValues(symbol) {
-      //   fetchStockDataFor(symbol);
+      calculateDailyValues(symbol) {
+        // this.fetchStockDataFor(symbol);
 
-      //   this.datesArray.forEach((date) => {
-      //     let stock_value = valueOnGivenDay(symbol, date);
-      //     let portfolio_value = portfolioOnGivenDay(date);
+        this.datesArray.forEach((date) => {
+          let stock_value = this.valueOnGivenDay(symbol, date);
+          console.log('symbol', symbol, 'date', date, 'value', stock_value)
+          let portfolio_value = this.portfolioOnGivenDay(date);
+          let value = 0;
 
+          portfolio_value.forEach((company) => {
+            if (company[0] == symbol) {
+              value = (parseInt(stock_value) * parseInt(company[1]));
+            }
+          });
 
-          
-      //   })
-      // }
+          this.chartData.forEach((company) => {
+            if (company['name'] == symbol) {
+              company['data'].push(
+                [new Date(date).getTime(), value]
+              );
+            };
+          })
+        })
+
+        console.log('daily values', this.chartData);
+      }
     },
     components: {
       highcharts: Chart
