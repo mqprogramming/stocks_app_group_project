@@ -1,8 +1,10 @@
 <template>
   <div>
     <h1>Chart</h1>
-    <button v-on:click="this.sortPortfolioByDate">Sort Portfolio By Date</button>
-    <button v-on:click="this.createDatesArray">Create Dates Array</button>
+    <button v-on:click="sortPortfolioByDate()">Sort Portfolio By Date</button>
+    <button v-on:click="createDatesArray()">Create Dates Array</button>
+    <button v-on:click="fetchStockDataFor('AAPL')">Fetch Stock Data</button>
+    <button v-on:click="valueOnGivenDay('AAPL', '2020-19-03')">Daily Value</button>
     <highcharts :constructor-type="'stockChart'" :options="chartOptions"></highcharts>
   </div>
 </template>
@@ -20,6 +22,8 @@ stockInit(Highcharts)
       return {
         portfolioDetails: [],
         datesArray: [],
+        stockDetails: [],
+        stockTimeSeries: [],
 
         chartOptions: {
           title: {
@@ -78,6 +82,23 @@ stockInit(Highcharts)
           .then(response => response.json())
           .then(data => (this.portfolioDetails = data));
       },
+      fetchStockDataFor(symbol) {
+        let query =
+        "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" +
+        symbol +
+        "&outputsize=compact&apikey=";
+
+        const request = async () => {
+          const response = await fetch(
+            `${query}${process.env.VUE_APP_API_KEY}`
+          );
+          const json = await response.json();
+          this.stockDetails = json;
+          this.stockTimeSeries = json["Time Series (Daily)"];
+        };
+
+        request();
+      },
       // Sorts array of objects by key.
       sortingFunction(key, order = 'asc') {
         return function innerSort(a, b) {
@@ -128,6 +149,7 @@ stockInit(Highcharts)
         let current_datetime = new Date();
         let formatted_date = formatDate(current_datetime);
         let last_pushed_date = this.portfolioDetails[0]['date_and_time'];
+        this.datesArray.push(last_pushed_date);
 
         while (new Date(formatted_date).getTime() > new Date(last_pushed_date).getTime()) {
           let last_pushed_date_unix = new Date(last_pushed_date).getTime();
@@ -139,7 +161,13 @@ stockInit(Highcharts)
 
         console.log(this.datesArray);
       },
-
+      valueOnGivenDay(symbol, date) {
+        this.stockTimeSeries.forEach((daily) => {
+          if (Object.keys(daily)[0] == date) {
+            return daily['4. close']
+          }
+        })
+      }
     },
     components: {
       highcharts: Chart
