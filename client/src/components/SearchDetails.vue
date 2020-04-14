@@ -4,7 +4,7 @@
       <p> {{ this.latestPrice}} at {{ this.latestTime }}</p>
       <p>
         <form v-on:submit.prevent="buyShares()">
-          <label for="sharesQty"> How many shares</label>
+          <label for="sharesQty"> Purchase Amount: </label>
           <input type="number" id="sharesQty" v-model="sharesQty">
           <input type="submit" value="buy">
         </form>

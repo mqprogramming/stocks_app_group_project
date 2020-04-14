@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>App Goes Here</h2>
+    <h2>Share Tracker</h2>
     <stock-search />
     <search-details />
     <portfolio-chart />
@@ -30,5 +30,6 @@ export default {
 html {
   height: 100%;
   background-color: #284B63;
+  color: white;
 }
 </style>

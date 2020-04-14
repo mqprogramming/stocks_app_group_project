@@ -1,7 +1,7 @@
 <template>
   <div class="details">
-    <h1>Portfolio details</h1>
-    <h2>All the details!</h2>
+    <h1>Portfolio</h1>
+    <!-- <h2>All the details!</h2> -->
       <ul v-for="stock in portfolio" v-bind:key="stock._id">
         <li>Ticker: {{ stock.ticker }}</li>
         <li>Name: {{ stock.name }}</li>
@@ -33,8 +33,16 @@ export default {
   mounted() {
     this.fetchData()
 
-    eventBus.$on('buy-shares', (shares) => this.portfolio.push(shares));
+    eventBus.$on('buy-shares', (shares) => {this.portfolio.push(shares)
+    })
+
+    eventBus.$on('delete-shares', (id) => {
+      let index = this.portfolio.findIndex(shares => shares._id == id)
+      this.portfolio.splice(index, 1)
+    })
 }
+
+    
 }
 </script>
 
