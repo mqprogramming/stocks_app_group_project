@@ -5,7 +5,8 @@
     <button v-on:click="createDatesArray()">Create Dates Array</button>
     <button v-on:click="fetchStockDataFor('AAPL')">Fetch Stock Data</button>
     <button v-on:click="valueOnGivenDay('AAPL', '2020-03-20')">Daily Value</button>
-    <button v-on:click="portfolioOnGivenDay('2020-04-03')">Portfolio Value On Date</button>
+    <button v-on:click="portfolioOnGivenDay('2020-04-11')">Portfolio Value On Date</button>
+    <button v-on:click="createChartData()">Initial Chart Data</button>
     <highcharts :constructor-type="'stockChart'" :options="chartOptions"></highcharts>
   </div>
 </template>
@@ -23,6 +24,8 @@ stockInit(Highcharts)
       return {
         portfolioDetails: [],
         datesArray: [],
+        chartData: [],
+
         stockDetails: {},
         stockTimeSeries: {},
 
@@ -180,10 +183,64 @@ stockInit(Highcharts)
             filteredPortfolio.push(record)
           }
         });
-        
-        console.log(filteredPortfolio);
-        return filteredPortfolio;
-      }
+
+        let arraysOfQuantities = [];
+        let isIncludedAlready = false;
+
+        filteredPortfolio.forEach((filtered) => {
+          arraysOfQuantities.forEach((array) => {
+            if (array[0] == filtered.ticker) {
+              array[1] += filtered.quantity;
+              isIncludedAlready = true;
+            };
+          });
+          if (!isIncludedAlready) {
+            arraysOfQuantities.push(
+              [filtered.ticker, filtered.quantity]
+            );
+            isIncludedAlready = false;
+          };
+        });
+
+        console.log('filtered portfolio', arraysOfQuantities);
+        return arraysOfQuantities;
+
+      },
+      createChartData() {
+        let dataArray = [];
+        let isIncludedAlready = false;
+
+        this.portfolioDetails.forEach((record) => {
+          dataArray.forEach((array) => {
+            if (array[0] == record.ticker) {
+              isIncludedAlready = true;
+            };
+          });
+          if (!isIncludedAlready) {
+            dataArray.push(
+              {
+                name: record.ticker,
+                data: []
+              }
+            );
+            isIncludedAlready = false;
+          };
+        });
+
+        this.chartData = dataArray;
+        console.log(this.chartData);
+      },
+      // calculateDailyValues(symbol) {
+      //   fetchStockDataFor(symbol);
+
+      //   this.datesArray.forEach((date) => {
+      //     let stock_value = valueOnGivenDay(symbol, date);
+      //     let portfolio_value = portfolioOnGivenDay(date);
+
+
+          
+      //   })
+      // }
     },
     components: {
       highcharts: Chart
