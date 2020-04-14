@@ -1,12 +1,8 @@
 <template>
   <div>
     <header>
-      
-      <h2>Total portfolio: £ {{ totalBalances }}</h2>
-      
+      <h2>Total portfolio: £ {{ totalBalance }}</h2>
     </header>
-
-    
   </div>
 </template>
 
@@ -17,11 +13,12 @@ export default {
     return {
       total: "",
       portfolio: "",
-      tickerList: []
+      tickerList: [],
+      totalBalance: 0
     };
   },
-  computed: {
-    totalBalances: this.totalPrice()
+  mounted: function() {
+    this.totalPrice();
   },
   methods: {
     getLatestPrice: function(symbol) {
@@ -44,19 +41,20 @@ export default {
       fetch("http://localhost:3000/api/shares-portfolio")
         .then(response => response.json())
         .then(portfolio => (this.portfolio = portfolio));
-      for (var stock in this.porfolio) {
-        this.tickerList[stock.ticker]=stock.quantity;
+      console.log("hey"+this.portfolio+"hey");
+      for (var stock in this.portfolio) {
+        this.tickerList[stock.ticker] = stock.quantity;
       }
     },
     totalPrice: function() {
-        var totalPortfolioValue=0;
-        this.retrieveTickerList();
-        const tickers= Object.keys(this.tickerList);
-        for(var stockName in tickers){
-            const currentPrice= this.getLatestPrice(stockName);
-            totalPortfolioValue+=currentPrice*this.tickerList[stockName];
-        }
-        return totalPortfolioValue;
+      this.retrieveTickerList();
+      const tickers = Object.keys(this.tickerList);
+      for (var stockName in tickers) {
+        const currentPrice = this.getLatestPrice(stockName);
+        this.totalBalance += currentPrice * this.tickerList[stockName];
+        console.log(currentPrice);
+        console.log(stockName);
+      }
     }
   }
 };
@@ -66,7 +64,7 @@ export default {
 
 
 <style scoped>
-h3 {
+/* h3 {
   margin: 40px 0 0;
 }
 ul {
@@ -79,5 +77,5 @@ li {
 }
 a {
   color: #42b983;
-}
+} */
 </style>
