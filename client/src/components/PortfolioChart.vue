@@ -12,6 +12,7 @@ import stockInit from 'highcharts/modules/stock'
  
 stockInit(Highcharts)
 
+
   export default {
     name: 'portfolio-chart',
     data(){
