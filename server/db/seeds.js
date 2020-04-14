@@ -8,3 +8,5 @@ db.shares.insertMany([
   { ticker: "AAPL", name: "Apple Inc.", price: 110, quantity: 10, date_and_time: "2020-04-08 13:25:00" },
   {ticker: "AMZN", name: "Amazon.com Inc.", price: 30, quantity: 40, date_and_time: "2020-03-15 12:10:00" }
 ]);
+
+
