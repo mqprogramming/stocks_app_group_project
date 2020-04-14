@@ -1,4 +1,4 @@
- const baseUrl = 'http://localhost:3000/api/shares_portfolio'
+const baseURL = 'http://localhost:3000/api/shares-portfolio';
 
 export default {
   getPortfolio(){
@@ -9,10 +9,11 @@ export default {
     return fetch(baseURL, {
       method: 'POST',
       body: JSON.stringify(payload),
-      headers: { 'Content-Type': 'application/json'}
+      headers: { 'Content-Type': 'application/json'},
     })
     .then(res => res.json())
   }
+
 }
 
 

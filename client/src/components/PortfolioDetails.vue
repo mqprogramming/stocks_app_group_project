@@ -12,24 +12,30 @@
 </template>
 
 <script>
+import PortfolioService from "../../services/PortfolioService";
+import { eventBus } from "@/main";
+
 export default {
   name: "portfolio-details",
   data() {
     return {
-      portfolio: ""
+      portfolio: []
     };
   },
   methods: {
     fetchData() {
-      fetch("http://localhost:3000/api/shares-portfolio")
-        .then(response => response.json())
-        .then(portfolio => (this.portfolio = portfolio));
+       PortfolioService.getPortfolio().then(
+        (portfolio => (this.portfolio = portfolio)
+      ))
     }
-  },
+    },
+
   mounted() {
-    this.fetchData();
-  }
-};
+    this.fetchData()
+
+    eventBus.$on('buy-shares', (shares) => this.portfolio.push(shares));
+}
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
