@@ -11,9 +11,11 @@ export default {
   name: "PortfolioTotalValue",
   data() {
     return {
-      total: "",
       portfolio: "",
-      tickerList: [],
+      tickerList: {},
+      query:"",
+      latestPrice:0,
+      stockTimeSeries:{},
       totalBalance: 0
     };
   },
@@ -21,40 +23,48 @@ export default {
     this.totalPrice();
   },
   methods: {
-    getLatestPrice: function(symbol) {
-      this.query =
-        "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" +
-        symbol +
-        "&interval=5min&apikey=";
+    retrieveTickerList: function() {
       const request = async () => {
         const response = await fetch(
-          `${this.query}${process.env.VUE_APP_API_KEY}`
+          "http://localhost:3000/api/shares-portfolio"
         );
-        const json = await response.json();
-        const stockDetails = json["Meta Data"];
-        const stockTimeSeries = json["Time Series (5min)"];
-        const latestPrice = Object.values(this.stockTimeSeries)[0]["4. close"];
-        return latestPrice;
+        this.portfolio = await response.json();
+        for (var stock in this.portfolio) {
+          const stockSymbol = this.portfolio[stock].ticker;
+          this.tickerList[stockSymbol] = this.portfolio[stock].quantity;
+        }
+        const tickers = Object.keys(this.tickerList);
+        for (var stockId in tickers) {
+          console.log("StockName:" + tickers[stockId]);
+          this.query =
+            "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" +
+            tickers[stockId] +
+            "&interval=5min&apikey=";
+          const request1 = async () => {
+            const response = await fetch(
+              `${this.query}${process.env.VUE_APP_API_KEY}`
+            );
+            const json = await response.json();
+            const stockDetails = json["Meta Data"];
+            this.stockTimeSeries = json["Time Series (5min)"];
+            const keys=Object.keys(this.stockTimeSeries)
+            const firstKey=keys[0]
+            this.latestPrice = this.stockTimeSeries[firstKey][
+              "4. close"
+            ];
+            console.log("latestPrice"+this.latestPrice);
+            const stockName=tickers[stockId];
+            console.log("stockAmount"+this.tickerList[stockName]);
+            this.totalBalance =this.totalBalance + this.latestPrice * this.tickerList[stockName];
+          };
+
+          request1();
+        }
       };
-    },
-    retrieveTickerList: function() {
-      fetch("http://localhost:3000/api/shares-portfolio")
-        .then(response => response.json())
-        .then(portfolio => (this.portfolio = portfolio));
-      console.log("hey"+this.portfolio+"hey");
-      for (var stock in this.portfolio) {
-        this.tickerList[stock.ticker] = stock.quantity;
-      }
+      request();
     },
     totalPrice: function() {
       this.retrieveTickerList();
-      const tickers = Object.keys(this.tickerList);
-      for (var stockName in tickers) {
-        const currentPrice = this.getLatestPrice(stockName);
-        this.totalBalance += currentPrice * this.tickerList[stockName];
-        console.log(currentPrice);
-        console.log(stockName);
-      }
     }
   }
 };
