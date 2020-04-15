@@ -1,7 +1,7 @@
 <template>
   <div>
     <header>
-      <h2>Total portfolio: £ {{ totalBalance }}</h2>
+      <h2>Total portfolio value : £ {{ totalBalance }}</h2>
     </header>
   </div>
 </template>
@@ -34,11 +34,12 @@ export default {
           this.tickerList[stockSymbol] = this.portfolio[stock].quantity;
         }
         const tickers = Object.keys(this.tickerList);
+        console.log("tickers:"+tickers)
         for (var stockId in tickers) {
-          console.log("StockName:" + tickers[stockId]);
+          let stockId1=stockId;
           this.query =
             "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" +
-            tickers[stockId] +
+            tickers[stockId1] +
             "&interval=5min&apikey=";
           const request1 = async () => {
             const response = await fetch(
@@ -52,10 +53,9 @@ export default {
             this.latestPrice = this.stockTimeSeries[firstKey][
               "4. close"
             ];
-            console.log("latestPrice"+this.latestPrice);
-            const stockName=tickers[stockId];
-            console.log("stockAmount"+this.tickerList[stockName]);
-            this.totalBalance =this.totalBalance + this.latestPrice * this.tickerList[stockName];
+            const stockName=tickers[stockId1];
+            console.log("StockName:" + stockName +"latestPrice"+this.latestPrice+"stockAmount"+this.tickerList[stockName]);
+            this.totalBalance =this.totalBalance + this.latestPrice * parseFloat(this.tickerList[stockName]);
           };
 
           request1();
