@@ -18,7 +18,7 @@ OurClient.connect('mongodb://localhost:27017')
     const db = client.db('shares_portfolio');
     const portfolioCollection = db.collection('shares');
     const portfolioRouter = createRouter(portfolioCollection);
-    app.use('/api/shares-portfolio', portfolioRouter);
+    app.use('/api/shares_portfolio', portfolioRouter);
   });
 
 app.listen(3000, function(){

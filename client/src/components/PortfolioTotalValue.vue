@@ -24,13 +24,13 @@ export default {
   },
   methods: {
     formatPrice(value) {
-        let val = (value/1).toFixed(2).replace('.', ',')
-        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+        let val = (value/1).toFixed(2).replace(',', '.')
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     },
     retrieveTickerList: function() {
       const request = async () => {
         const response = await fetch(
-          "http://localhost:3000/api/shares-portfolio"
+          "http://localhost:3000/api/shares_portfolio"
         );
         this.portfolio = await response.json();
         for (var stock in this.portfolio) {
