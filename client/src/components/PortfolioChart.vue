@@ -11,12 +11,13 @@
     <button v-on:click="calculateDailyValues('AMZN')">Chart Data for AAPL</button>
     <button v-on:click="fullChartData()">FULL CHART DATA</button>
     <button v-on:click="fetchNewData()">UPDATE CHART DATA</button>
+
     <highcharts :constructor-type="'stockChart'" :options="chartOptions"></highcharts>
   </div>
 </template>
 
 <script>
-import PortfolioService from '../../services/PortfolioService.js'
+import PortfolioService from "../../services/PortfolioService";
 import {Chart} from 'highcharts-vue'
 import Highcharts from 'highcharts'
 import stockInit from 'highcharts/modules/stock'
@@ -29,45 +30,7 @@ stockInit(Highcharts)
       return {
         portfolioDetails: [],
         datesArray: [],
-        chartData: [
-                    {
-                      // Test Data
-                      name: 'APPLE',
-                      data: [
-                        [new Date('2015-08-01').getTime(), 25],
-                        [new Date('2015-08-02').getTime(), 27],              
-                        [new Date('2015-08-03').getTime(), 29],              
-                        [new Date('2015-08-05').getTime(), 21],
-                        [new Date('2015-09-01').getTime(), 25],
-                        [new Date('2015-10-02').getTime(), 27],              
-                        [new Date('2018-04-08 13:25:00').getTime(), 29]
-                      ]
-                    },
-                    {
-                      name: 'MICROSOFT',
-                      data: [
-                        [new Date('2015-08-01').getTime(), 21],
-                        [new Date('2015-08-02').getTime(), 22],              
-                        [new Date('2015-08-03').getTime(), 31],              
-                        [new Date('2015-08-05').getTime(), 23],
-                        [new Date('2015-09-01').getTime(), 26],
-                        [new Date('2015-10-02').getTime(), 28],              
-                        [new Date('2015-11-03').getTime(), 19]
-                      ]
-                    },
-                    {
-                      name: 'TOTAL',
-                      data: [
-                        [new Date('2015-08-01').getTime(), 70],
-                        [new Date('2015-08-02').getTime(), 65],              
-                        [new Date('2015-08-03').getTime(), 68],              
-                        [new Date('2015-08-05').getTime(), 71],
-                        [new Date('2015-09-01').getTime(), 72],
-                        [new Date('2015-10-02').getTime(), 63],              
-                        [new Date('2015-11-03').getTime(), 59]
-                      ]
-                    }
-                  ],
+        chartData: [],
 
         stockDetails: {},
         stockTimeSeries: {},
@@ -85,18 +48,12 @@ stockInit(Highcharts)
     },
     methods: {
       // Fetches portfolio data.
-      
+      // setTimeout(demo, 5000);
       fetchData() {
         PortfolioService.getPortfolio()
-        .then((data => (this.portfolioDetails = data)))
-        .then(console.log(this.portfolioDetails))
+        .then((data => (this.portfolioDetails = data)));
+        setTimeout(this.fullChartData, 2000);
       },
-
-      // fetchData() {
-      //   fetch("http://localhost:3000/api/shares-portfolio")
-      //     .then(response => response.json())
-      //     .then(data => (this.portfolioDetails = data));
-      // },
       fetchStockDataFor(symbol) {
         let query =
         "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" +
@@ -152,6 +109,7 @@ stockInit(Highcharts)
       },
       // Creates an array of dates from oldest portfolio record to current day.
       createDatesArray() {
+
         function appendLeadingZeroes(n){
           if(n <= 9){
             return "0" + n;
@@ -177,6 +135,33 @@ stockInit(Highcharts)
         };
 
         // console.log(this.datesArray);
+
+        // const request = async () => {
+
+        //   let query =
+        //   "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=AAPL&outputsize=fullsize&apikey=";
+  
+        //   const response = await fetch(
+        //     `${query}${process.env.VUE_APP_API_KEY}`
+        //   );
+        //   const json = await response.json();
+        //   this.stockDetails = json;
+        //   this.stockTimeSeries = json["Time Series (Daily)"];
+
+        //   let oldest_record_date = new Date(this.portfolioDetails[0]['date_and_time']);
+
+        //   Object.keys(this.stockTimeSeries).forEach((date) => {
+        //     let new_date = new Date(date);
+        //     if (new_date >= oldest_record_date) {
+        //       this.datesArray.push(date);
+        //     }
+        //   })
+
+        //   console.log('dates array', this.datesArray);
+        // }
+
+        // request();
+
       },
       valueOnGivenDay(symbol, date) {
         let result = 0;
@@ -271,7 +256,7 @@ stockInit(Highcharts)
             });
 
             this.chartData.forEach((company) => {
-              if (company['name'] == symbol) {
+              if (company['name'] == symbol && value != 0) {
                 company['data'].push(
                   [new Date(date).getTime(), value]
                 );
@@ -293,6 +278,8 @@ stockInit(Highcharts)
           this.calculateDailyValues(company.name);
         });
 
+        this.fetchNewData();
+
         console.log('daily values', this.chartData);
       },
       fetchNewData: function () {
@@ -302,6 +289,12 @@ stockInit(Highcharts)
     components: {
       highcharts: Chart
     }
+    // ,
+    // watch: {
+    //   portfolioDetails: function (old_val, new_val) {
+    //     this.fullChartData();
+    //   }
+    // }
   }
 </script>
 

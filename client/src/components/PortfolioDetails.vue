@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     fetchData() {
-      fetch("http://localhost:3000/api/shares-portfolio")
+      fetch("http://localhost:3000/api/shares_portfolio")
         .then(response => response.json())
         .then(portfolio => (this.portfolio = portfolio));
     }
