@@ -2,7 +2,7 @@
   <div>
     <div class="page-header">
       <h1 id="page-title">ShareWatch</h1>
-      <p id="page-sub-heading">At ShareWatch, we help you make your dream future a reality. You captilalist pig.</p>
+      <p id="page-sub-heading">At ShareWatch, we help you make your dream future a reality. You capitalist pig.</p>
     </div>
     <stock-search class="stock-search"/>
     <search-details />
