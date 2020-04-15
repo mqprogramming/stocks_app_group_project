@@ -43,7 +43,7 @@ export default {
         "&interval=5min&apikey=";
       const request = async () => {
         const response = await fetch(
-          `${this.query}${process.env.VUE_APP_API_KEY}`
+          `${this.query}${process.env.VUE_APP_API_KEY_2}`
         );
         const json = await response.json();
         this.stockDetails = json["Meta Data"];
