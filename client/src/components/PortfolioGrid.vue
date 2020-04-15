@@ -78,6 +78,7 @@ a {
 
 .details {
   display: flex;
+  flex-flow: row wrap;
 }
 
 .header {
@@ -86,12 +87,11 @@ a {
 }
 
 .shares {
-  flex: 2;
   margin: 5px;
   border-style: solid;
   border-color: aliceblue;
   background-color: rgba(52,100,200,0.5);
-  width: 200px;
+  width: 15em;
   text-align: center;
   
 }
