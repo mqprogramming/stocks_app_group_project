@@ -27,5 +27,8 @@ export default {
 </script>
 
 <style>
-
+html {
+  height: 100%;
+  background-color: #284B63;
+}
 </style>
