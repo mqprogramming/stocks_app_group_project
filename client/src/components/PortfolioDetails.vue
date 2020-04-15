@@ -10,26 +10,16 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-=======
 import { eventBus } from '@/main.js'
 import PortfolioService from '../../services/PortfolioService'
->>>>>>> develop
 
 export default {
   name: 'portfolio-details',
   props: ['stock'],
   methods: {
-<<<<<<< HEAD
-    fetchData() {
-      fetch("http://localhost:3000/api/shares_portfolio")
-        .then(response => response.json())
-        .then(portfolio => (this.portfolio = portfolio));
-=======
     deletePortfolio(id){
       PortfolioService.deletePortfolio(id)
       .then(() => eventBus.$emit('portfolio-deleted', id))
->>>>>>> develop
     }
     // handleSell(id) {
     //   console.log(id);

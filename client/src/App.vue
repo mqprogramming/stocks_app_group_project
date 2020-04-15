@@ -3,7 +3,7 @@
     <h1>Share Tracker</h1>
     <stock-search />
     <search-details />
-    <portfolio-chart />
+    <portfolio-chart class="chart"/>
     <portfolio-grid/>
   </div>
 </template>
@@ -59,5 +59,10 @@ html {
 
 #share-button:active{
   box-shadow: 0 4px #101B26;
+}
+
+.chart {
+  box-shadow: none;
+  text-shadow: none;
 }
 </style>

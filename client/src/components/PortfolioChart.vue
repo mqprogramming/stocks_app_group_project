@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Chart</h1>
-    <button v-on:click="sortPortfolioByDate()">Sort Portfolio By Date</button>
+    <!-- <button v-on:click="sortPortfolioByDate()">Sort Portfolio By Date</button>
     <button v-on:click="createDatesArray()">Create Dates Array</button>
     <button v-on:click="createChartData()">Initial Chart Data</button>
     <br>
@@ -10,7 +10,7 @@
     <button v-on:click="portfolioOnGivenDay('2020-04-14')">Portfolio Value On Date</button>
     <button v-on:click="calculateDailyValues('AMZN')">Chart Data for AAPL</button>
     <button v-on:click="fullChartData()">FULL CHART DATA</button>
-    <button v-on:click="fetchNewData()">UPDATE CHART DATA</button>
+    <button v-on:click="fetchNewData()">UPDATE CHART DATA</button> -->
 
     <highcharts :constructor-type="'stockChart'" :options="chartOptions"></highcharts>
   </div>
@@ -52,7 +52,7 @@ stockInit(Highcharts)
       fetchData() {
         PortfolioService.getPortfolio()
         .then((data => (this.portfolioDetails = data)));
-        setTimeout(this.fullChartData, 2000);
+        setTimeout(this.fullChartData, 3000);
       },
       fetchStockDataFor(symbol) {
         let query =

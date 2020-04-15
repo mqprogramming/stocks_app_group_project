@@ -1,8 +1,4 @@
-<<<<<<< HEAD
  const baseURL = 'http://localhost:3000/api/shares_portfolio/'
-=======
-const baseURL = 'http://localhost:3000/api/shares-portfolio/';
->>>>>>> develop
 
 export default {
   getPortfolio(){
