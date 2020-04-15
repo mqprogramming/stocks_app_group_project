@@ -8,7 +8,7 @@
     <button v-on:click="fetchStockDataFor('AAPL')">Fetch Stock Data</button>
     <button v-on:click="valueOnGivenDay('AAPL', '2020-03-20')">Daily Value</button>
     <button v-on:click="portfolioOnGivenDay('2020-04-11')">Portfolio Value On Date</button>
-    <button v-on:click="calculateDailyValues('AAPL')">Chart Data for AAPL</button>
+    <button v-on:click="calculateDailyValues('AMZN')">Chart Data for AAPL</button>
     <highcharts :constructor-type="'stockChart'" :options="chartOptions"></highcharts>
   </div>
 </template>
@@ -102,6 +102,7 @@ stockInit(Highcharts)
           this.stockDetails = json;
           this.stockTimeSeries = json["Time Series (Daily)"];
           console.log(this.stockTimeSeries);
+          return "Yo, I'm done";
         };
 
         request();
@@ -173,6 +174,7 @@ stockInit(Highcharts)
         Object.entries(this.stockTimeSeries).forEach(function(daily) {
           if (daily[0] == date) {
             result = daily[1]['4. close'];
+            // NEED TO MAKE SURE DATE FITS A RANGE OF VALUES
           };
         });
         // console.log(daily[1]['4. close']);
@@ -235,28 +237,45 @@ stockInit(Highcharts)
         console.log(this.chartData);
       },
       calculateDailyValues(symbol) {
-        // this.fetchStockDataFor(symbol);
 
-        this.datesArray.forEach((date) => {
-          let stock_value = this.valueOnGivenDay(symbol, date);
-          console.log('symbol', symbol, 'date', date, 'value', stock_value)
-          let portfolio_value = this.portfolioOnGivenDay(date);
-          let value = 0;
+        const request = async () => {
 
-          portfolio_value.forEach((company) => {
-            if (company[0] == symbol) {
-              value = (parseInt(stock_value) * parseInt(company[1]));
-            }
+          let query =
+          "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" +
+          symbol +
+          "&outputsize=compact&apikey=";
+  
+          const response = await fetch(
+            `${query}${process.env.VUE_APP_API_KEY}`
+          );
+          const json = await response.json();
+          this.stockDetails = json;
+          this.stockTimeSeries = json["Time Series (Daily)"];
+
+          this.datesArray.forEach((date) => {
+            let stock_value = parseInt(this.valueOnGivenDay(symbol, date));
+            // console.log('value: ', stock_value);
+            let portfolio_value = this.portfolioOnGivenDay(date);
+            // console.log('portfolio on given day', portfolio_value);
+            let value = 0;
+
+            portfolio_value.forEach((company) => {
+              if (company[0] == symbol) {
+                value = (parseInt(stock_value) * company[1]);
+              }
+            });
+
+            this.chartData.forEach((company) => {
+              if (company['name'] == symbol) {
+                company['data'].push(
+                  [date, value]
+                );
+              };
+            });
           });
 
-          this.chartData.forEach((company) => {
-            if (company['name'] == symbol) {
-              company['data'].push(
-                [new Date(date).getTime(), value]
-              );
-            };
-          })
-        })
+        }
+        request();
 
         console.log('daily values', this.chartData);
       }
