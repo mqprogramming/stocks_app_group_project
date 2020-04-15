@@ -1,7 +1,7 @@
 <template>
   <div>
     <header>
-      <h2>Total portfolio value : £ {{ totalBalance }}</h2>
+      <h2>Total portfolio value : £ {{ formatPrice(totalBalance) }}</h2>
     </header>
   </div>
 </template>
@@ -23,6 +23,10 @@ export default {
     this.totalPrice();
   },
   methods: {
+    formatPrice(value) {
+        let val = (value/1).toFixed(2).replace('.', ',')
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    },
     retrieveTickerList: function() {
       const request = async () => {
         const response = await fetch(
@@ -57,6 +61,7 @@ export default {
             console.log("StockName:" + stockName +"latestPrice"+this.latestPrice+"stockAmount"+this.tickerList[stockName]);
             this.totalBalance =this.totalBalance + this.latestPrice * parseFloat(this.tickerList[stockName]);
           };
+          
 
           request1();
         }
