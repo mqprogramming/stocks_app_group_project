@@ -9,9 +9,9 @@
     <button v-on:click="valueOnGivenDay('AAPL', '2020-03-20')">Daily Value</button>
     <button v-on:click="portfolioOnGivenDay('2020-04-14')">Portfolio Value On Date</button>
     <button v-on:click="calculateDailyValues('AMZN')">Chart Data for AAPL</button>
-    <button v-on:click="fullChartData()">FULL CHART DATA</button> --->
+    <button v-on:click="fullChartData()">FULL CHART DATA</button>
     <button v-on:click="fetchNewData()">UPDATE CHART DATA</button>
-    <button v-on:click="flagAdder()">flags</button>
+    <button v-on:click="flagAdder()">flags</button> --->
 
     <highcharts :constructor-type="'stockChart'" :options="chartOptions"></highcharts>
   </div>
@@ -38,16 +38,31 @@ stockInit(Highcharts)
 
         chartOptions: {
           chart: {
-            type: 'line'
+            type: 'line',
+            backgroundColor: 'rgba(224,255,255,0.75)',
+            borderWidth: 2
           },
-          title: {
-            text: 'Daily Share Value'
+          colors: 
+            ['#2f7ed8', '#0d233a', '#8bbc21', '#910000', '#1aadce',
+            '#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a'],
+          // title: {
+          //   text: 'Daily Share Value'
+          // },
+          legend: {
+            enabled: false
+          },
+          xAxis: {
+            gridLineColor: 'rgba(100,100,100,0.75)',
+            lineColor: 'rgba(100,100,100,0.75)'
           },
           yAxis: {
             title: {
               text: 'Total Value',
               enabled: true
             },
+            gridLineColor: 'rgba(100,100,100,0.75)',
+            lineColor: 'rgba(100,100,100,0.75)',
+            floor: 0,
             labels: {
                 formatter: function() {
                     return '$' + (this.value / 1000) + 'k';
@@ -267,7 +282,6 @@ stockInit(Highcharts)
 
             this.chartData.forEach((object) => {
               if (object.type == "flags" && object.onSeries == record.ticker) {
-                console.log("yes");
                 object.data.push(
                   {
                     x : (new Date(record.date_and_time).getTime()),      // Point where the flag appears
