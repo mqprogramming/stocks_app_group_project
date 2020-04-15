@@ -90,7 +90,7 @@ a {
   margin: 5px;
   border-style: solid;
   border-color: aliceblue;
-  background-color: #1C3144;
+  background-color: rgba(52,100,200,0.7);
   width: 200px;
   text-align: center;
   
