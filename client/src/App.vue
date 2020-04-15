@@ -1,7 +1,10 @@
 <template>
   <div>
-    <h1>Share Tracker</h1>
-    <stock-search />
+    <div class="page-header">
+      <h1 id="page-title">ShareWatch</h1>
+      <p id="page-sub-heading">At ShareWatch, we help you make your dream future a reality. You captilalist pig.</p>
+    </div>
+    <stock-search class="stock-search"/>
     <search-details />
     <portfolio-chart />
     <portfolio-grid/>
@@ -31,7 +34,11 @@ export default {
 <style>
 html {
   height: 100%;
-  background-color: #284B63;
+  /* background-color: #284B63; */
+  background: url("assets/BackgroundImage1.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
   color: white;
   font-family: 'Alegreya Sans', sans-serif;
   text-shadow: 2px 2px #1C3144;
@@ -40,7 +47,7 @@ html {
 .button {
   border-radius: 12px;
   margin: 2px;
-  box-shadow: 0 4px  #1C3144;
+  box-shadow: 0 4px  #224080;
 }
 
 .button:hover {
@@ -49,15 +56,47 @@ html {
 
 .button:active {
   background-color: lightsteelblue;
-  box-shadow: 0 5px #1C3144;
+  box-shadow: 0 5px #224080;
   transform: translateY(4px);
 }
 
 #share-button {
-  box-shadow: 0 4px #101B26;
+  box-shadow: 0 4px #224080;
 }
 
 #share-button:active{
-  box-shadow: 0 4px #101B26;
+  box-shadow: 0 4px #224080;
+}
+
+.page-header {
+  height: 300px;
+  margin: 10px;
+  text-align: center;
+  font-size: 50px;
+  
+}
+
+#page-sub-heading{
+  font-size: 25px;
+}
+
+.stock-search{
+  text-align: center;
+  margin: 10px;
+}
+
+#symbol{
+  margin: 5px;
+}
+
+.search-details {
+  /* display: flex;
+  flex-direction: column; */
+  margin: auto;
+  border-style: solid;
+  border-color: aliceblue;
+  background-color: rgba(52,100,200,0.7);
+  width: 200px;
+  text-align: center;
 }
 </style>

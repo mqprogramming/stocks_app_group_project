@@ -1,5 +1,7 @@
 <template>
-  <div v-if="latestPrice">
+  <div class="search-details"v-if="latestPrice">
+    <details>
+      <summary>{{this.ticker}} </summary>
       <p >{{ stockDetails["2. Symbol"] }}</p>
       <p> {{ this.latestPrice}} at {{ this.latestTime }}</p>
       <p>
@@ -9,6 +11,7 @@
           <input class="button" type="submit" value="Add">
         </form>
       </p>
+      </details>
   </div>
 </template>
 
