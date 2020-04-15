@@ -35,7 +35,11 @@ export default {
         this.portfolio = await response.json();
         for (var stock in this.portfolio) {
           const stockSymbol = this.portfolio[stock].ticker;
-          this.tickerList[stockSymbol] = this.portfolio[stock].quantity;
+          if( typeof this.tickerList[stockSymbol] == 'undefined'){
+            this.tickerList[stockSymbol] = parseInt(this.portfolio[stock].quantity);
+          }else{
+            this.tickerList[stockSymbol] = parseInt(this.tickerList[stockSymbol])+ parseInt(this.portfolio[stock].quantity);
+          }
         }
         const tickers = Object.keys(this.tickerList);
         console.log("tickers:"+tickers)
