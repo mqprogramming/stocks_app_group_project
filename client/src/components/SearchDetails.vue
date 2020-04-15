@@ -1,6 +1,8 @@
 <template>
-  <div v-if="latestPrice">
-      <p >{{ stockDetails["2. Symbol"] }}</p>
+  <div class="search-details"v-if="latestPrice">
+    <details>
+      <summary>{{ stockDetails["2. Symbol"] }} </summary>
+      <!-- <p>{{ stockDetails["2. Symbol"] }}</p> -->
       <p> {{ this.latestPrice}} at {{ this.latestTime }}</p>
       <p>
         <form v-on:submit.prevent="buyShares()">
@@ -9,6 +11,7 @@
           <input class="button" type="submit" value="Add">
         </form>
       </p>
+      </details>
   </div>
 </template>
 
