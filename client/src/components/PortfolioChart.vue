@@ -7,7 +7,7 @@
     <br>
     <button v-on:click="fetchStockDataFor('AAPL')">Fetch Stock Data</button>
     <button v-on:click="valueOnGivenDay('AAPL', '2020-03-20')">Daily Value</button>
-    <button v-on:click="portfolioOnGivenDay('2020-04-11')">Portfolio Value On Date</button>
+    <button v-on:click="portfolioOnGivenDay('2020-04-14')">Portfolio Value On Date</button>
     <button v-on:click="calculateDailyValues('AMZN')">Chart Data for AAPL</button>
     <highcharts :constructor-type="'stockChart'" :options="chartOptions"></highcharts>
   </div>
@@ -198,12 +198,13 @@ stockInit(Highcharts)
             if (array[0] == filtered.ticker) {
               array[1] += filtered.quantity;
               isIncludedAlready = true;
-            };
+            }
           });
-          if (!isIncludedAlready) {
+          if (isIncludedAlready == false) {
             arraysOfQuantities.push(
               [filtered.ticker, filtered.quantity]
-            );
+            )
+          } else {
             isIncludedAlready = false;
           };
         });
@@ -213,28 +214,23 @@ stockInit(Highcharts)
 
       },
       createChartData() {
-        let dataArray = [];
-        let isIncludedAlready = false;
 
-        this.portfolioDetails.forEach((record) => {
-          dataArray.forEach((array) => {
-            if (array[0] == record.ticker) {
-              isIncludedAlready = true;
-            };
-          });
-          if (!isIncludedAlready) {
+        let current_date = this.datesArray[this.datesArray.length - 1];
+
+        let current_portfolio = this.portfolioOnGivenDay(current_date);
+        let dataArray = [];
+
+        current_portfolio.forEach((record) => {
             dataArray.push(
               {
-                name: record.ticker,
+                name: record[0],
                 data: []
               }
-            );
-            isIncludedAlready = false;
-          };
+            )
         });
 
         this.chartData = dataArray;
-        console.log(this.chartData);
+        // console.log(this.chartData);
       },
       calculateDailyValues(symbol) {
 
