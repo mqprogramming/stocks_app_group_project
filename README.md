@@ -1,4 +1,4 @@
-<!-- TOC -->autoauto- [Portfolio Tracker](#portfolio-tracker)auto    - [About](#about)auto    - [Features](#features)auto    - [Getting Started](#getting-started)auto        - [Install server dependencies](#install-server-dependencies)auto        - [Client](#client)autoauto<!-- /TOC -->
+
 # Portfolio Tracker
 
 ![Wall street sign, Photo by Sophie Backes on Unsplash](./images/wall_st.jpeg)
