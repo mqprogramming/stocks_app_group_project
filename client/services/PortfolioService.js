@@ -14,8 +14,6 @@ export default {
     .then(res => res.json())
   },
   deletePortfolio(id) {
-    console.log('PS : ', id);
-    
     return fetch(baseURL + id, {
       method:'DELETE',
     });

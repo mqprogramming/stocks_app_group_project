@@ -5,7 +5,7 @@
       <label for="symbol">Stock Ticker: </label>
       <input type="text" id="symbol" name="symbol" v-model="symbol" />
 
-      <input type="submit" name="submit" value="Search" />
+      <input class="button" type="submit" name="submit" value="Search" />
       </form>
 
   </div>

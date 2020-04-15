@@ -4,7 +4,7 @@
     <p> Price: {{ stock.price }}</p>
     <p> Quantity: {{ stock.quantity }}</p>
     <p> Date: {{ stock.date_and_time }}</p>
-    <p> <button type="button" v-on:click="deletePortfolio(stock._id)">Sell</button> </p>
+    <p> <button class="button" id="share-button" type="button" v-on:click="deletePortfolio(stock._id)">Delete</button> </p>
   
   </div>
 </template>
@@ -18,8 +18,8 @@ export default {
   props: ['stock'],
   methods: {
     deletePortfolio(id){
-      PortfolioService.deletePortfolio(this.portfolio._id)
-      .then(() => eventBus.$emit('portfolio-deleted', this.portfolio._id))
+      PortfolioService.deletePortfolio(id)
+      .then(() => eventBus.$emit('portfolio-deleted', id))
     }
     // handleSell(id) {
     //   console.log(id);

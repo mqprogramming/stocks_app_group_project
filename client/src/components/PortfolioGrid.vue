@@ -1,9 +1,11 @@
 <template>
-  <div class="details">
+  <div>
     <h1>Portfolio</h1>
     <!-- <h2>All the details!</h2> -->
     <!-- <ul> -->
-      <portfolio-details class="shares" v-for="stock in portfolio" :key="stock._id" :stock="stock"/>
+      <div class="details">
+        <portfolio-details class="shares" v-for="stock in portfolio" :key="stock._id" :stock="stock"/>
+      </div>
     <!-- </ul> -->
        <!-- <li>Ticker: {{ stock.ticker }}</li> -->
         <!--  <li>Name: {{ stock.name }}</li>
@@ -35,14 +37,6 @@ export default {
         (portfolio => (this.portfolio = portfolio)
       ))
     }
-    // handleSell(id) {
-    //   console.log(id);
-      
-    //   PortfolioService.deletePortfolio(id).then ((reponce) => {
-    //     let index = this.portfolio.findIndex(shares => shares._id == id)
-    //   this.portfolio.splice(index, 1)
-    //   })
-    // }
     },
 
   mounted() {

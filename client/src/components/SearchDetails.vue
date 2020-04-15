@@ -6,7 +6,7 @@
         <form v-on:submit.prevent="buyShares()">
           <label for="sharesQty"> Purchase Amount: </label>
           <input type="number" id="sharesQty" v-model="sharesQty">
-          <input type="submit" value="Buy">
+          <input class="button" type="submit" value="Add">
         </form>
       </p>
   </div>

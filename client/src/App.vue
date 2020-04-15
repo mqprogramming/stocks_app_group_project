@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Share Tracker</h2>
+    <h1>Share Tracker</h1>
     <stock-search />
     <search-details />
     <portfolio-chart />
@@ -33,5 +33,31 @@ html {
   height: 100%;
   background-color: #284B63;
   color: white;
+  font-family: 'Alegreya Sans', sans-serif;
+  text-shadow: 2px 2px #1C3144;
+}
+
+.button {
+  border-radius: 12px;
+  margin: 2px;
+  box-shadow: 0 4px  #1C3144;
+}
+
+.button:hover {
+  background-color: lightsteelblue;
+  }
+
+.button:active {
+  background-color: lightsteelblue;
+  box-shadow: 0 5px #1C3144;
+  transform: translateY(4px);
+}
+
+#share-button {
+  box-shadow: 0 4px #101B26;
+}
+
+#share-button:active{
+  box-shadow: 0 4px #101B26;
 }
 </style>
