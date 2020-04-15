@@ -1,10 +1,10 @@
 # Portfolio Tracker
 
-- [About](#11-about)
-- [Features](#12-features)
-- [Getting Started](#13-getting-started)
-  - [Install server dependencies](#131-install-server-dependencies)
-  - [Client](#132-client)
+- [About](#about)
+- [Features](#features)
+- [Getting Started](#getting-started)
+  - [Install server dependencies](#install-server-dependencies)
+  - [Client](#client)
 
 ![Wall street sign, Photo by Sophie Backes on Unsplash](./images/wall_st.jpeg)
 
