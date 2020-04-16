@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Chart</h1>
+    <h1 id="chart-header">Stock Performance</h1>
     <!-- <button v-on:click="sortPortfolioByDate()">Sort Portfolio By Date</button>
     <button v-on:click="createDatesArray()">Create Dates Array</button>
     <button v-on:click="createChartData()">Initial Chart Data</button>
@@ -10,9 +10,10 @@
     <button v-on:click="portfolioOnGivenDay('2020-04-14')">Portfolio Value On Date</button>
     <button v-on:click="calculateDailyValues('AMZN')">Chart Data for AAPL</button>
     <button v-on:click="fullChartData()">FULL CHART DATA</button>
-    <button v-on:click="fetchNewData()">UPDATE CHART DATA</button> -->
+    <button v-on:click="fetchNewData()">UPDATE CHART DATA</button>
+    <button v-on:click="flagAdder()">flags</button> --->
 
-    <highcharts :constructor-type="'stockChart'" :options="chartOptions"></highcharts>
+    <highcharts :constructor-type="'stockChart'" :options="chartOptions" class="chart"></highcharts>
   </div>
 </template>
 
@@ -36,8 +37,40 @@ stockInit(Highcharts)
         stockTimeSeries: {},
 
         chartOptions: {
-          title: {
-            text: 'Test Title'
+          chart: {
+            type: 'line',
+            backgroundColor: 'rgba(224,255,255,0.75)',
+            borderWidth: 2
+          },
+          colors: 
+            ['#2f7ed8', '#0d233a', '#8bbc21', '#910000', '#1aadce',
+            '#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a'],
+          // title: {
+          //   text: 'Daily Share Value'
+          // },
+          legend: {
+            enabled: false
+          },
+          xAxis: {
+            gridLineColor: 'rgba(100,100,100,0.75)',
+            lineColor: 'rgba(100,100,100,0.75)'
+          },
+          yAxis: {
+            title: {
+              text: 'Total Value',
+              enabled: true
+            },
+            gridLineColor: 'rgba(100,100,100,0.75)',
+            lineColor: 'rgba(100,100,100,0.75)',
+            floor: 0,
+            labels: {
+                formatter: function() {
+                    return '$' + (this.value / 1000) + 'k';
+                }
+            }
+          },
+          tooltip: {
+            crosshairs: [false, true]
           },
           series: [{}]
         }
@@ -168,7 +201,6 @@ stockInit(Highcharts)
         Object.entries(this.stockTimeSeries).forEach(function(daily) {
           if (daily[0] == date) {
             result = daily[1]['4. close'];
-            // NEED TO MAKE SURE DATE FITS A RANGE OF VALUES
           };
         });
         // console.log(daily[1]['4. close']);
@@ -180,7 +212,8 @@ stockInit(Highcharts)
 
         this.portfolioDetails.forEach((record) => {
           if (record.unix_time < unix_date) {
-            filteredPortfolio.push(record)
+            record.quantity = parseInt(record.quantity);
+            filteredPortfolio.push(record);
           }
         });
 
@@ -218,13 +251,63 @@ stockInit(Highcharts)
             dataArray.push(
               {
                 name: record[0],
-                data: []
+                data: [],
+                id: record[0],
+                showInNavigator: true
               }
             )
         });
 
         this.chartData = dataArray;
         // console.log(this.chartData);
+      },
+      flagAdder() {
+        if (this.portfolioDetails != undefined) {
+
+          let current_date = this.datesArray[this.datesArray.length - 1];
+          let current_portfolio = this.portfolioOnGivenDay(current_date);
+
+          current_portfolio.forEach((company) => {
+            this.chartData.push(
+              {
+                type : 'flags',
+                data : [],
+                onSeries : company[0],
+                shape : 'flag'
+              }
+            )
+          })
+
+          this.portfolioDetails.forEach((record) => {
+
+            this.chartData.forEach((object) => {
+              if (object.type == "flags" && object.onSeries == record.ticker) {
+                object.data.push(
+                  {
+                    x : (new Date(record.date_and_time).getTime()),      // Point where the flag appears
+                    title : record.ticker + ' Buy', // Title of flag displayed on the chart 
+                    text : 'Quantity: ' + record.quantity + ", Price: $" + record.price   // Text displayed when the flag are highlighted.
+                  }
+                )
+              }
+            })
+
+              // this.chartData.push(
+              //   {
+              //     type : 'flags',
+              //     data : [{
+              //         x : (new Date(record.date_and_time).getTime()),      // Point where the flag appears
+              //         title : record.quantity, // Title of flag displayed on the chart 
+              //         text : 'Some details'   // Text displayed when the flag are highlighted.
+              //     }],
+              //     onSeries : record.ticker,  // Id of which series it should be placed on. If not defined 
+              //                     // the flag series will be put on the X axis
+              //     shape : 'flag'  // Defines the shape of the flags.
+              //   }
+              // )
+          })
+        };
+        console.log('chart data', this.chartData);
       },
       calculateDailyValues(symbol) {
 
@@ -252,6 +335,7 @@ stockInit(Highcharts)
             portfolio_value.forEach((company) => {
               if (company[0] == symbol) {
                 value = (parseInt(stock_value) * company[1]);
+                // console.log(`${stock_value} * ${company[1]} = ${value}?`)
               }
             });
 
@@ -278,6 +362,7 @@ stockInit(Highcharts)
           this.calculateDailyValues(company.name);
         });
 
+        this.flagAdder();
         this.fetchNewData();
 
         console.log('daily values', this.chartData);

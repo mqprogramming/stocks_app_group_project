@@ -2,17 +2,14 @@
   <div>
     <div class="page-header">
       <h1 id="page-title">ShareWatch</h1>
-      <p id="page-sub-heading">At ShareWatch, we help you make your dream future a reality. You captilalist pig.</p>
+      <p id="page-sub-heading">Watch your dream future become a reality.</p>
     </div>
     <stock-search class="stock-search"/>
     <search-details />
-    <portfolio-chart class="chart"/>
-
-    <portfolio-total-value/>
+    <portfolio-chart class="chart"/> 
     <portfolio-details/>
-
     <portfolio-grid/>
-
+    <portfolio-total-value/>
   </div>
 </template>
 
@@ -110,7 +107,8 @@ html {
   box-shadow: none;
   text-shadow: none;
 }
-.chart {
-  text-shadow: none;
+
+#chart-header{
+  text-shadow: 2px 2px #1C3144;
 }
 </style>

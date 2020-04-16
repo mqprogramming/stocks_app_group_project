@@ -1,7 +1,7 @@
 <template>
   <div>
     <header>
-      <h2>Total portfolio value : £ {{ formatPrice(totalBalance) }}</h2>
+      <h1>Total portfolio value : £ {{ formatPrice(totalBalance) }}</h1>
     </header>
   </div>
 </template>
