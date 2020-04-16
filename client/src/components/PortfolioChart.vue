@@ -1,18 +1,6 @@
 <template>
   <div>
     <h1 id="chart-header">Stock Performance</h1>
-    <!-- <button v-on:click="sortPortfolioByDate()">Sort Portfolio By Date</button>
-    <button v-on:click="createDatesArray()">Create Dates Array</button>
-    <button v-on:click="createChartData()">Initial Chart Data</button>
-    <br>
-    <button v-on:click="fetchStockDataFor('AAPL')">Fetch Stock Data</button>
-    <button v-on:click="valueOnGivenDay('AAPL', '2020-03-20')">Daily Value</button>
-    <button v-on:click="portfolioOnGivenDay('2020-04-14')">Portfolio Value On Date</button>
-    <button v-on:click="calculateDailyValues('AMZN')">Chart Data for AAPL</button>
-    <button v-on:click="fullChartData()">FULL CHART DATA</button>
-    <button v-on:click="fetchNewData()">UPDATE CHART DATA</button>
-    <button v-on:click="flagAdder()">flags</button> --->
-
     <highcharts :constructor-type="'stockChart'" :options="chartOptions" class="chart"></highcharts>
   </div>
 </template>
@@ -45,9 +33,6 @@ stockInit(Highcharts)
           colors: 
             ['#2f7ed8', '#0d233a', '#8bbc21', '#910000', '#1aadce',
             '#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a'],
-          // title: {
-          //   text: 'Daily Share Value'
-          // },
           legend: {
             enabled: false
           },
@@ -81,7 +66,6 @@ stockInit(Highcharts)
     },
     methods: {
       // Fetches portfolio data.
-      // setTimeout(demo, 5000);
       fetchData() {
         PortfolioService.getPortfolio()
         .then((data => (this.portfolioDetails = data)));
@@ -100,8 +84,6 @@ stockInit(Highcharts)
           const json = await response.json();
           this.stockDetails = json;
           this.stockTimeSeries = json["Time Series (Daily)"];
-          // console.log(this.stockTimeSeries);
-          // return "Yo, I'm done";
         };
 
         request();
@@ -110,7 +92,6 @@ stockInit(Highcharts)
       sortingFunction(key, order = 'asc') {
         return function innerSort(a, b) {
           if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
-            // property doesn't exist on either object
             return 0;
           }
 
@@ -137,8 +118,6 @@ stockInit(Highcharts)
           record['unix_time'] = unix_time;
         });
         this.portfolioDetails.sort(this.sortingFunction('unix_time'));
-
-        // console.log(this.portfolioDetails);
       },
       // Creates an array of dates from oldest portfolio record to current day.
       createDatesArray() {
@@ -167,34 +146,6 @@ stockInit(Highcharts)
           last_pushed_date = to_push_date;
         };
 
-        // console.log(this.datesArray);
-
-        // const request = async () => {
-
-        //   let query =
-        //   "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=AAPL&outputsize=fullsize&apikey=";
-  
-        //   const response = await fetch(
-        //     `${query}${process.env.VUE_APP_API_KEY}`
-        //   );
-        //   const json = await response.json();
-        //   this.stockDetails = json;
-        //   this.stockTimeSeries = json["Time Series (Daily)"];
-
-        //   let oldest_record_date = new Date(this.portfolioDetails[0]['date_and_time']);
-
-        //   Object.keys(this.stockTimeSeries).forEach((date) => {
-        //     let new_date = new Date(date);
-        //     if (new_date >= oldest_record_date) {
-        //       this.datesArray.push(date);
-        //     }
-        //   })
-
-        //   console.log('dates array', this.datesArray);
-        // }
-
-        // request();
-
       },
       valueOnGivenDay(symbol, date) {
         let result = 0;
@@ -203,7 +154,6 @@ stockInit(Highcharts)
             result = daily[1]['4. close'];
           };
         });
-        // console.log(daily[1]['4. close']);
         return result;
       },
       portfolioOnGivenDay(date) {
@@ -236,7 +186,6 @@ stockInit(Highcharts)
           };
         });
 
-        // console.log('filtered portfolio', arraysOfQuantities);
         return arraysOfQuantities;
 
       },
@@ -259,7 +208,6 @@ stockInit(Highcharts)
         });
 
         this.chartData = dataArray;
-        // console.log(this.chartData);
       },
       flagAdder() {
         if (this.portfolioDetails != undefined) {
@@ -291,20 +239,6 @@ stockInit(Highcharts)
                 )
               }
             })
-
-              // this.chartData.push(
-              //   {
-              //     type : 'flags',
-              //     data : [{
-              //         x : (new Date(record.date_and_time).getTime()),      // Point where the flag appears
-              //         title : record.quantity, // Title of flag displayed on the chart 
-              //         text : 'Some details'   // Text displayed when the flag are highlighted.
-              //     }],
-              //     onSeries : record.ticker,  // Id of which series it should be placed on. If not defined 
-              //                     // the flag series will be put on the X axis
-              //     shape : 'flag'  // Defines the shape of the flags.
-              //   }
-              // )
           })
         };
         console.log('chart data', this.chartData);
@@ -327,15 +261,12 @@ stockInit(Highcharts)
 
           this.datesArray.forEach((date) => {
             let stock_value = parseInt(this.valueOnGivenDay(symbol, date));
-            // console.log('value: ', stock_value);
             let portfolio_value = this.portfolioOnGivenDay(date);
-            // console.log('portfolio on given day', portfolio_value);
             let value = 0;
 
             portfolio_value.forEach((company) => {
               if (company[0] == symbol) {
                 value = (parseInt(stock_value) * company[1]);
-                // console.log(`${stock_value} * ${company[1]} = ${value}?`)
               }
             });
 
@@ -351,7 +282,6 @@ stockInit(Highcharts)
         }
         request();
 
-        // console.log('daily values', this.chartData);
       },
       fullChartData() {
         this.sortPortfolioByDate();
@@ -374,12 +304,6 @@ stockInit(Highcharts)
     components: {
       highcharts: Chart
     }
-    // ,
-    // watch: {
-    //   portfolioDetails: function (old_val, new_val) {
-    //     this.fullChartData();
-    //   }
-    // }
   }
 </script>
 
