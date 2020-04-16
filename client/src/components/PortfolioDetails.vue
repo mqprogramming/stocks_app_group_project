@@ -20,6 +20,7 @@ export default {
     deletePortfolio(id){
       PortfolioService.deletePortfolio(id)
       .then(() => eventBus.$emit('portfolio-deleted', id))
+      eventBus.$emit('update-total-sell');
     }
     // handleSell(id) {
     //   console.log(id);

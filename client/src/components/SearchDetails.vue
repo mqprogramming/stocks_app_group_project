@@ -67,8 +67,9 @@ export default {
           PortfolioService.postPortfolio(payload)
           .then ((portfolio) => {
             eventBus.$emit('buy-shares', portfolio);
-            this.sharesQty = 0
-
+           const cost = this.latestPrice * this.sharesQty         
+           this.sharesQty = 0
+            eventBus.$emit('update-total-add', cost);
           });
 
 }

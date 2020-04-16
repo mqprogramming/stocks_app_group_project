@@ -7,20 +7,37 @@
 </template>
 
 <script>
+import { eventBus } from "@/main.js";
 export default {
   name: "PortfolioTotalValue",
   data() {
     return {
       portfolio: "",
       tickerList: {},
-      query:"",
-      latestPrice:0,
+      query: "",
+      latestPrice: 0,
       stockTimeSeries:{},
       totalBalance: 0
     };
   },
   mounted: function() {
     this.totalPrice();
+
+    eventBus.$on('update-total-add', (cost) => {
+      this.totalBalance += cost;
+      
+    }),
+      eventBus.$on('update-total-sell', () => {
+      this.portfolio =  "",
+      this.tickerList = {},
+      this.latestPrice = 0,
+      this.query = "",
+      this.stockTimeSeries = {},
+      this.totalBalance = 0,
+      console.log('break one', this.totalBalance);
+      this.retrieveTickerList();
+      console.log('break two');
+    })
   },
   methods: {
     formatPrice(value) {
@@ -41,6 +58,7 @@ export default {
             this.tickerList[stockSymbol] = parseInt(this.tickerList[stockSymbol])+ parseInt(this.portfolio[stock].quantity);
           }
         }
+
         const tickers = Object.keys(this.tickerList);
         console.log("tickers:"+tickers)
         for (var stockId in tickers) {
