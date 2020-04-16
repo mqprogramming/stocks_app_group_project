@@ -22,21 +22,6 @@ export default {
       .then(() => eventBus.$emit('portfolio-deleted', id))
       eventBus.$emit('update-total-sell');
     }
-    // handleSell(id) {
-    //   console.log(id);
-      
-    //   PortfolioService.deletePortfolio(id).then ((reponce) => {
-    //     let index = this.portfolio.findIndex(shares => shares._id == id)
-    //   this.portfolio.splice(index, 1)
-    //   })
-    // }
-  //   handleSell(id) {
-
-  //   deletePortfolio(){
-  //     PortfolioService.deletePortfolio(this.portfolio._id)
-  //     .then(() => eventBus.$emit('portfolio-deleted', this.portfolio._id))
-  //   }
-  // }
   }
   
 

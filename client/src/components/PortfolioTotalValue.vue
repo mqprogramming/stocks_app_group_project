@@ -34,9 +34,7 @@ export default {
       this.query = "",
       this.stockTimeSeries = {},
       this.totalBalance = 0,
-      console.log('break one', this.totalBalance);
       this.retrieveTickerList();
-      console.log('break two');
     })
   },
   methods: {
@@ -60,7 +58,6 @@ export default {
         }
 
         const tickers = Object.keys(this.tickerList);
-        console.log("tickers:"+tickers)
         for (var stockId in tickers) {
           let stockId1=stockId;
           this.query =
@@ -80,7 +77,6 @@ export default {
               "4. close"
             ];
             const stockName=tickers[stockId1];
-            console.log("StockName:" + stockName +"latestPrice"+this.latestPrice+"stockAmount"+this.tickerList[stockName]);
             this.totalBalance =this.totalBalance + this.latestPrice * parseFloat(this.tickerList[stockName]);
           };
           

@@ -1,19 +1,9 @@
 <template>
   <div>
     <h1>Portfolio</h1>
-    <!-- <h2>All the details!</h2> -->
-    <!-- <ul> -->
       <div class="details">
         <portfolio-details class="shares" v-for="stock in portfolio" :key="stock._id" :stock="stock"/>
       </div>
-    <!-- </ul> -->
-       <!-- <li>Ticker: {{ stock.ticker }}</li> -->
-        <!--  <li>Name: {{ stock.name }}</li>
-        <li> Price: {{ stock.price }}</li>
-        <li>Quantity: {{ stock.quantity }}</li>
-        <li> Date: {{ stock.date_and_time }}</li>
-        <li> <button v-on:click="handleSell(stock._id)">Sell</button> </li> -->
-      <!-- </ul>  -->
       
   </div>
 </template>
@@ -61,20 +51,6 @@ components: {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-/* h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-} */
 
 .details {
   display: flex;
