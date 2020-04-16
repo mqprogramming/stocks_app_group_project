@@ -147,6 +147,7 @@ stockInit(Highcharts)
         };
 
       },
+      // Returns stock value on a given day
       valueOnGivenDay(symbol, date) {
         let result = 0;
         Object.entries(this.stockTimeSeries).forEach(function(daily) {
@@ -156,6 +157,7 @@ stockInit(Highcharts)
         });
         return result;
       },
+      // Compiles and shows portfolio totals on a given day
       portfolioOnGivenDay(date) {
         let unix_date = new Date(date).getTime();
         let filteredPortfolio = [];
@@ -189,6 +191,7 @@ stockInit(Highcharts)
         return arraysOfQuantities;
 
       },
+      // Creates initial chart data for companies in portfolio
       createChartData() {
 
         let current_date = this.datesArray[this.datesArray.length - 1];
@@ -209,6 +212,7 @@ stockInit(Highcharts)
 
         this.chartData = dataArray;
       },
+      // Adds flags at times when stock is bought
       flagAdder() {
         if (this.portfolioDetails != undefined) {
 
@@ -243,6 +247,7 @@ stockInit(Highcharts)
         };
         console.log('chart data', this.chartData);
       },
+      // Produces data array for a given company
       calculateDailyValues(symbol) {
 
         const request = async () => {
@@ -283,6 +288,7 @@ stockInit(Highcharts)
         request();
 
       },
+      // Generates and inserts the full set of chart data
       fullChartData() {
         this.sortPortfolioByDate();
         this.createDatesArray();
