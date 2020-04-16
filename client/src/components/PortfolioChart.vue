@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Chart</h1>
+    <h1 id="chart-header">Stock Performance</h1>
     <!-- <button v-on:click="sortPortfolioByDate()">Sort Portfolio By Date</button>
     <button v-on:click="createDatesArray()">Create Dates Array</button>
     <button v-on:click="createChartData()">Initial Chart Data</button>
@@ -13,7 +13,7 @@
     <button v-on:click="fetchNewData()">UPDATE CHART DATA</button>
     <button v-on:click="flagAdder()">flags</button> --->
 
-    <highcharts :constructor-type="'stockChart'" :options="chartOptions"></highcharts>
+    <highcharts :constructor-type="'stockChart'" :options="chartOptions" class="chart"></highcharts>
   </div>
 </template>
 
